@@ -128,14 +128,14 @@
         <div class="hero-teaser">
             <div id="video-compare-container">
                 <div class="video-load-container">
-                  <img class="video-placeholder" style="background-color: #000;" src="./static/videos/playroom_lg_metrics.jpeg">
+                  <img class="video-placeholder" src="./static/videos/playroom_lg_metrics.jpeg">
                   <video id='src' style="display: none;" loop muted onclick="video_click()">
                       <source src="./static/videos/playroom_lg_metrics.mp4">
                   </video>
                 </div>
                 <div id="video-clipper">
                   <div class="video-load-container">
-                    <img class="video-placeholder" style="background-color: #000;" src="./static/videos/playroom_pup_metrics.jpeg">
+                    <img class="video-placeholder" src="./static/videos/playroom_pup_metrics.jpeg">
                     <video id='tgt' style="display: none" loop muted onclick="video_click()">
                         <source src="./static/videos/playroom_pup_metrics.mp4">
                     </video>
@@ -206,6 +206,7 @@
         var videoContainer = document.getElementById("video-compare-container"),
             videoClipper = document.getElementById("video-clipper"),
             clippedVideo = videoClipper.getElementsByTagName("video")[0],
+            clippedImg = videoClipper.getElementsByTagName("img")[0],
             sliderBar = document.getElementById("slider-bar");
 
         function trackLocation(e) {
@@ -215,6 +216,8 @@
                 videoClipper.style.width = position + "%";
                 clippedVideo.style.width = ((100 / position) * 100) + "%";
                 clippedVideo.style.zIndex = 3;
+                clippedImg.style.width = ((100 / position) * 100) + "%";
+                clippedImg.style.zIndex = 3;
 
                 // Move the white bar and arrows to the same position as the clipper
                 sliderBar.style.left = position + "%";
