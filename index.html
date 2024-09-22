@@ -127,13 +127,19 @@
     <section class="hero is-light">
         <div class="hero-teaser">
             <div id="video-compare-container">
-                <video id='src' loop autoplay muted onclick="video_click()">
-                    <source src="./static/videos/playroom_lg_metrics.mp4">
-                </video>
+                <div class="video-load-container">
+                  <img class="video-placeholder" src="./static/videos/playroom_lg_metrics.jpeg">
+                  <video id='src' style="display: none;" loop muted onclick="video_click()">
+                      <source src="./static/videos/playroom_lg_metrics.mp4">
+                  </video>
+                </div>
                 <div id="video-clipper">
-                    <video id='tgt' loop autoplay muted onclick="video_click()">
+                  <div class="video-load-container">
+                    <img class="video-placeholder" src="./static/videos/playroom_pup_metrics.jpeg">
+                    <video id='tgt' style="display: none" loop muted onclick="video_click()">
                         <source src="./static/videos/playroom_pup_metrics.mp4">
                     </video>
+                  </div>
                 </div>
                 <div id="slider-bar"></div>
                 <div id="left-arrow">&#9664;</div> <!-- Left arrow -->
@@ -154,6 +160,34 @@
     </section>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const videoContainers = document.querySelectorAll('.video-load-container');
+
+          let videosReadyCount = 0; // Counter to track how many videos are ready
+          const videoElements = []; // Array to store video elements
+
+          videoContainers.forEach(container => {
+            const video = container.querySelector('video');
+            const placeholder = container.querySelector('.video-placeholder');
+
+            videoElements.push(video); // Store video element in array
+
+            // Listen for the 'canplaythrough' event for each video
+            video.addEventListener('canplaythrough', function() {
+              videosReadyCount++; // Increment the counter when a video is ready
+              placeholder.style.display = 'none'; // Hide the placeholder for the current video
+
+              // Check if both videos are ready
+              if (videosReadyCount === videoContainers.length) {
+                // Show and play all videos when both are ready
+                videoElements.forEach(video => {
+                  video.style.display = 'block'; // Show the video
+                  video.play(); // Play the video
+                });
+              }
+            });
+          });
+        });
         var v = document.getElementById("src");
         var v2 = document.getElementById("tgt");
         function video_click() {
@@ -172,6 +206,7 @@
         var videoContainer = document.getElementById("video-compare-container"),
             videoClipper = document.getElementById("video-clipper"),
             clippedVideo = videoClipper.getElementsByTagName("video")[0],
+            clippedImg = videoClipper.getElementsByTagName("img")[0],
             sliderBar = document.getElementById("slider-bar");
 
         function trackLocation(e) {
@@ -181,6 +216,8 @@
                 videoClipper.style.width = position + "%";
                 clippedVideo.style.width = ((100 / position) * 100) + "%";
                 clippedVideo.style.zIndex = 3;
+                clippedImg.style.width = ((100 / position) * 100) + "%";
+                clippedImg.style.zIndex = 3;
 
                 // Move the white bar and arrows to the same position as the clipper
                 sliderBar.style.left = position + "%";

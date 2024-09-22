@@ -7,7 +7,13 @@
     /* Adjust height based on the aspect ratio */
 }
 
-#video-compare-container > video {
+#video-compare-container > div > video {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    height: 100%;
+}
+#video-compare-container > div > img {
     width: 100%;
     position: absolute;
     top: 0;
@@ -25,6 +31,14 @@
 }
 
 #video-clipper video {
+    width: 200%; /* Ensures it covers the entire clipper when adjusted */
+    position: absolute;
+    top: 0;
+    height: 100%;
+    max-width: none;
+}
+
+#video-clipper img {
     width: 200%; /* Ensures it covers the entire clipper when adjusted */
     position: absolute;
     top: 0;
