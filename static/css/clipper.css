@@ -7,7 +7,7 @@
     /* Adjust height based on the aspect ratio */
 }
 
-#video-compare-container > video {
+#video-compare-container > div > video {
     width: 100%;
     position: absolute;
     top: 0;
