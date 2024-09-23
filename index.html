@@ -184,6 +184,8 @@
                   video.style.display = 'block'; // Show the video
                   video.play(); // Play the video
                 });
+                videoElements[0].currentTime = videoElements[1].currentTime;
+                videoElements[1].currentTime = videoElements[0].currentTime;
               }
             });
           });
