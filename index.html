@@ -5,25 +5,28 @@
     <meta charset="utf-8">
     <meta name="description"
         content="PUP 3D-GS compresses 3D scene data using a mathematically principled pruning score, tripling rendering speed with minimal loss of visual fidelity.">
-    <meta name="keywords" content="PUP 3D-GS, pup 3d-gs, PUP 3DGS, pup3dgs, principled uncertainty pruning, Gaussian Splatting, Gaussian">
+    <meta name="keywords"
+        content="PUP 3D-GS, pup 3d-gs, PUP 3DGS, pup3dgs, principled uncertainty pruning, Gaussian Splatting, Gaussian">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PUP 3D-GS: Principled Uncertainty Pruning for 3D
         Gaussian Splatting</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJBVZNV6J3"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-      gtag('config', 'G-KJBVZNV6J3');
+        gtag('config', 'G-KJBVZNV6J3');
     </script>
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
     <link rel="stylesheet" href="./static/css/bulma.min.css">
     <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <link rel="stylesheet" href="./static/css/index.css">
     <link rel="stylesheet" href="./static/css/clipper.css">
@@ -123,18 +126,18 @@
         <div class="hero-teaser">
             <div id="video-compare-container">
                 <div class="video-load-container">
-                  <img class="video-placeholder" src="./static/videos/playroom_lg_metrics.jpeg">
-                  <video id='src' style="display: none;" loop muted onclick="video_click()">
-                      <source src="./static/videos/playroom_lg_metrics.mp4">
-                  </video>
+                    <img class="video-placeholder" src="./static/videos/playroom_lg_metrics.png">
+                    <video id='src' style="display: none;" loop muted onclick="video_click()">
+                        <source src="./static/videos/playroom_lg_metrics.mp4">
+                    </video>
                 </div>
                 <div id="video-clipper">
-                  <div class="video-load-container">
-                    <img class="video-placeholder" src="./static/videos/playroom_pup_metrics.jpeg">
-                    <video id='tgt' style="display: none" loop muted onclick="video_click()">
-                        <source src="./static/videos/playroom_pup_metrics.mp4">
-                    </video>
-                  </div>
+                    <div class="video-load-container">
+                        <img class="video-placeholder" src="./static/videos/playroom_pup_metrics.png">
+                        <video id='tgt' style="display: none" loop muted onclick="video_click()">
+                            <source src="./static/videos/playroom_pup_metrics.mp4">
+                        </video>
+                    </div>
                 </div>
                 <div id="slider-bar"></div>
                 <div id="left-arrow">&#9664;</div> <!-- Left arrow -->
@@ -155,35 +158,35 @@
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const videoContainers = document.querySelectorAll('.video-load-container');
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoContainers = document.querySelectorAll('.video-load-container');
 
-          let videosReadyCount = 0; // Counter to track how many videos are ready
-          const videoElements = []; // Array to store video elements
+            let videosReadyCount = 0; // Counter to track how many videos are ready
+            const videoElements = []; // Array to store video elements
 
-          videoContainers.forEach(container => {
-            const video = container.querySelector('video');
-            const placeholder = container.querySelector('.video-placeholder');
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+                const placeholder = container.querySelector('.video-placeholder');
 
-            videoElements.push(video); // Store video element in array
+                videoElements.push(video); // Store video element in array
 
-            // Listen for the 'canplaythrough' event for each video
-            video.addEventListener('canplaythrough', function() {
-              videosReadyCount++; // Increment the counter when a video is ready
-              placeholder.style.display = 'none'; // Hide the placeholder for the current video
+                // Listen for the 'canplaythrough' event for each video
+                video.addEventListener('canplaythrough', function () {
+                    videosReadyCount++; // Increment the counter when a video is ready
+                    placeholder.style.display = 'none'; // Hide the placeholder for the current video
 
-              // Check if both videos are ready
-              if (videosReadyCount === videoContainers.length) {
-                // Show and play all videos when both are ready
-                videoElements.forEach(video => {
-                  video.style.display = 'block'; // Show the video
-                  video.play(); // Play the video
+                    // Check if both videos are ready
+                    if (videosReadyCount === videoContainers.length) {
+                        // Show and play all videos when both are ready
+                        videoElements.forEach(video => {
+                            video.style.display = 'block'; // Show the video
+                            video.play(); // Play the video
+                        });
+                        videoElements[0].currentTime = videoElements[1].currentTime;
+                        videoElements[1].currentTime = videoElements[0].currentTime;
+                    }
                 });
-                videoElements[0].currentTime = videoElements[1].currentTime;
-                videoElements[1].currentTime = videoElements[0].currentTime;
-              }
             });
-          });
         });
         var v = document.getElementById("src");
         var v2 = document.getElementById("tgt");
@@ -235,13 +238,16 @@
                     <h2 class="title is-3">Abstract</h2>
                     <div class="content has-text-justified">
                         <p>
-                            Recent advancements in novel view synthesis have enabled real-time rendering speeds and high
-                            reconstruction accuracy. 3D Gaussian Splatting (3D-GS), a foundational point-based
-                            parametric 3D scene representation, models scenes as large sets of 3D Gaussians. Complex
-                            scenes can comprise of millions of Gaussians, amounting to large storage and memory
-                            requirements that limit the viability of 3D-GS on devices with limited resources. Current
-                            techniques for compressing these pretrained models by pruning Gaussians rely on combining
-                            heuristics to determine which ones to remove.
+                            Recent advances in novel view synthesis have enabled real-time rendering speeds with high
+                            reconstruction accuracy.
+                            3D Gaussian Splatting (3D-GS), a foundational point-based parametric 3D scene
+                            representation, models scenes as large sets of 3D Gaussians.
+                            However, complex scenes can consist of millions of Gaussians, resulting in high storage and
+                            memory requirements that limit the viability of 3D-GS on devices with limited resources.
+                            Current techniques for compressing these pretrained models by pruning Gaussians rely on
+                            combining heuristics to determine which Gaussians to remove.
+                            At high compression ratios, these pruned scenes suffer from heavy degradation of visual
+                            fidelity and loss of foreground details.
                         </p>
                         <p>
                             In this paper, we propose a principled spatial sensitivity pruning score that outperforms
@@ -251,10 +257,10 @@
                             model without changing the training pipeline.
                         </p>
                         <p>
-                            After pruning 88.44% of the Gaussians, we observe that our PUP 3D-GS pipeline
-                            increases the average rendering speed of 3D-GS by 2.65× while retaining more salient
-                            foreground information and achieving higher image quality metrics than previous pruning
-                            techniques on scenes from the Mip-NeRF 360, Tanks & Temples, and Deep Blending datasets.
+                            After pruning 90% of Gaussians, a substantially higher percentage than previous methods, our
+                            PUP 3D-GS pipeline increases average rendering speed by 3.56× while retaining more salient
+                            foreground information and achieving higher image quality metrics than existing techniques
+                            on scenes from the Mip-NeRF 360, Tanks & Temples, and Deep Blending datasets.
                         </p>
                     </div>
                 </div>
@@ -350,16 +356,6 @@
                         <video poster="" id="room" autoplay controls muted loop playsinline height="100%">
                             <source src="static/videos/room.mp4" type="video/mp4">
                         </video>
-                    </div>
-                </div>
-            </div>
-            <div class="columns is-centered has-text-centered">
-                <div class="column is-8">
-                    <div class="content">
-                        <p></p>
-                        <p>
-                            <strong>Update:</strong> FPS statistics are higher than reported in our original preprint due to a change in rasterizer.
-                        </p>
                     </div>
                 </div>
             </div>
