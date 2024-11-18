@@ -29,13 +29,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="stylesheet" href="./static/css/clipper.css">
     <link rel="icon" href="./static/images/favicon.ico">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="./static/js/fontawesome.all.min.js"></script>
     <script src="./static/js/bulma-carousel.min.js"></script>
     <script src="./static/js/index.js"></script>
+    <script src="./static/js/video_comparison.js"></script>
     <script src="./static/js/script.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -124,112 +124,13 @@
 
     <section class="hero">
         <div class="hero-teaser">
-            <div id="video-compare-container">
-                <div class="video-load-container">
-                    <img class="video-placeholder" src="./static/videos/playroom_lg_metrics.png">
-                    <video id='src' style="display: none;" loop muted onclick="video_click()">
-                        <source src="./static/videos/playroom_lg_metrics.mp4">
-                    </video>
-                </div>
-                <div id="video-clipper">
-                    <div class="video-load-container">
-                        <img class="video-placeholder" src="./static/videos/playroom_pup_metrics.png">
-                        <video id='tgt' style="display: none" loop muted onclick="video_click()">
-                            <source src="./static/videos/playroom_pup_metrics.mp4">
-                        </video>
-                    </div>
-                </div>
-                <div id="slider-bar"></div>
-                <div id="left-arrow">&#9664;</div> <!-- Left arrow -->
-                <div id="right-arrow">&#9654;</div> <!-- Right arrow -->
-            </div>
-            <div class="columns is-centered has-text-centered">
-                <div class="column is-8">
-                    <div class="content">
-                        <p></p>
-                        <p>
-                            Click on the video to pause or play and sync playback.**
-                        </p>
-                        <p></p>
-                    </div>
-                </div>
+            <div class="video-compare-container">
+                <video class="video" width=50% id="v2" loop playsinline autoplay muted
+                    src="static/videos/playroom_both.mp4" onplay="resizeAndPlay(this)"></video>
+                <canvas height=0 class="videoMerge" id="v2Merge"></canvas>
             </div>
         </div>
     </section>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const videoContainers = document.querySelectorAll('.video-load-container');
-
-            let videosReadyCount = 0; // Counter to track how many videos are ready
-            const videoElements = []; // Array to store video elements
-
-            videoContainers.forEach(container => {
-                const video = container.querySelector('video');
-                const placeholder = container.querySelector('.video-placeholder');
-
-                videoElements.push(video); // Store video element in array
-
-                // Listen for the 'canplaythrough' event for each video
-                video.addEventListener('canplaythrough', function () {
-                    videosReadyCount++; // Increment the counter when a video is ready
-                    placeholder.style.display = 'none'; // Hide the placeholder for the current video
-
-                    // Check if both videos are ready
-                    if (videosReadyCount === videoContainers.length) {
-                        // Show and play all videos when both are ready
-                        videoElements.forEach(video => {
-                            video.style.display = 'block'; // Show the video
-                            video.play(); // Play the video
-                        });
-                        videoElements[0].currentTime = videoElements[1].currentTime;
-                        videoElements[1].currentTime = videoElements[0].currentTime;
-                    }
-                });
-            });
-        });
-        var v = document.getElementById("src");
-        var v2 = document.getElementById("tgt");
-        function video_click() {
-            if (v.paused) {
-                v.play();
-                v2.play();
-            }
-            else {
-                v.pause();
-                v2.pause();
-            }
-            v.currentTime = v2.currentTime;
-            v2.currentTime = v.currentTime;
-        }
-
-        var videoContainer = document.getElementById("video-compare-container"),
-            videoClipper = document.getElementById("video-clipper"),
-            clippedVideo = videoClipper.getElementsByTagName("video")[0],
-            clippedImg = videoClipper.getElementsByTagName("img")[0],
-            sliderBar = document.getElementById("slider-bar");
-
-        function trackLocation(e) {
-            var rect = videoContainer.getBoundingClientRect(),
-                position = ((e.pageX - rect.left) / videoContainer.offsetWidth) * 100;
-            if (position <= 100) {
-                videoClipper.style.width = position + "%";
-                clippedVideo.style.width = ((100 / position) * 100) + "%";
-                clippedVideo.style.zIndex = 3;
-                clippedImg.style.width = ((100 / position) * 100) + "%";
-                clippedImg.style.zIndex = 3;
-
-                // Move the white bar and arrows to the same position as the clipper
-                sliderBar.style.left = position + "%";
-                document.getElementById("left-arrow").style.left = `calc(${position}% - 45px)`;
-                document.getElementById("right-arrow").style.right = `calc(${100 - position}% - 45px)`;
-            }
-        }
-
-        videoContainer.addEventListener("mousemove", trackLocation, false);
-        videoContainer.addEventListener("touchstart", trackLocation, false);
-        videoContainer.addEventListener("touchmove", trackLocation, false);
-    </script>
 
     <section class="section">
         <div class="container is-max-desktop">
@@ -548,12 +449,11 @@
                     <div class="content has-text-centered">
                         <p>
                             We thank the authors of <a rel="nerfies"
-                                href="https://github.com/nerfies/nerfies.github.io/tree/main">Nerfies</a> for
-                            generously
-                            open sourcing the template of this website.
+                                href="https://github.com/nerfies/nerfies.github.io/tree/main">Nerfies</a> and <a
+                                rel="refnerf"
+                                href="https://github.com/dorverbin/dorverbin.github.io/tree/master/refnerf">Ref-NeRF</a>
+                            for generously open-sourcing the templates used in this website.
                         </p>
-
-                        <p>**Please use a Chromium browser if you are experiencing issues loading videos.</p>
                     </div>
                 </div>
             </div>
