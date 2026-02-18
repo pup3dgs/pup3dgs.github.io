@@ -225,7 +225,7 @@
                 <div class="video-compare-container">
                     <video class="video" id="v2" loop playsinline autoplay muted
                         poster="static/images/playroom_poster.jpg" onplay="resizeAndPlay(this)">
-                        <source src="static/videos/playroom_mobile_high.mp4" media="(max-width: 768px)"
+                        <source src="static/videos/playroom_mobile_high_main.mp4" media="(max-width: 768px)"
                             type="video/mp4">
                         <source src="static/videos/playroom_compressed.mp4" type="video/mp4">
                     </video>
@@ -351,31 +351,31 @@
                 <div id="results-carousel" class="carousel results-carousel">
                     <div class="item item-bonsai">
                         <video poster="static/images/bonsai_poster.jpg" id="bonsai" autoplay muted loop playsinline
-                            height="100%" onclick="this.paused ? this.play() : this.pause()">
+                            height="100%" preload="metadata" onclick="this.paused ? this.play() : this.pause()">
                             <source src="static/videos/bonsai_compressed.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="item item-counter">
                         <video poster="static/images/counter_poster.jpg" id="counter" autoplay muted loop playsinline
-                            height="100%" onclick="this.paused ? this.play() : this.pause()">
+                            height="100%" preload="metadata" onclick="this.paused ? this.play() : this.pause()">
                             <source src="static/videos/counter_compressed.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="item item-garden">
                         <video poster="static/images/garden_poster.jpg" id="garden" autoplay muted loop playsinline
-                            height="100%" onclick="this.paused ? this.play() : this.pause()">
+                            height="100%" preload="metadata" onclick="this.paused ? this.play() : this.pause()">
                             <source src="static/videos/garden_compressed.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="item item-kitchen">
                         <video poster="static/images/kitchen_poster.jpg" id="kitchen" autoplay muted loop playsinline
-                            height="100%" onclick="this.paused ? this.play() : this.pause()">
+                            height="100%" preload="metadata" onclick="this.paused ? this.play() : this.pause()">
                             <source src="static/videos/kitchen_compressed.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="item item-room">
                         <video poster="static/images/room_poster.jpg" id="room" autoplay muted loop playsinline
-                            height="100%" onclick="this.paused ? this.play() : this.pause()">
+                            height="100%" preload="metadata" onclick="this.paused ? this.play() : this.pause()">
                             <source src="static/videos/room_compressed.mp4" type="video/mp4">
                         </video>
                     </div>
