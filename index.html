@@ -8,8 +8,71 @@
     <meta name="keywords"
         content="PUP 3D-GS, pup 3d-gs, PUP 3DGS, pup3dgs, principled uncertainty pruning, Gaussian Splatting, Gaussian, 3D Gaussian Splatting">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PUP 3D-GS: Principled Uncertainty Pruning for 3D
-        Gaussian Splatting</title>
+    <title>PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting</title>
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://pup3dgs.github.io/">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting">
+    <meta property="og:description"
+        content="Prune 90% of primitives from any pretrained 3D Gaussian Splatting model using a mathematically principled sensitivity score, more than tripling rendering speed while retaining more salient foreground information and higher visual fidelity.">
+    <meta property="og:url" content="https://pup3dgs.github.io/">
+    <meta property="og:image" content="https://pup3dgs.github.io/static/images/playroom_preview.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PUP 3D-GS">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting">
+    <meta name="twitter:description"
+        content="Prune 90% of primitives from any pretrained 3D Gaussian Splatting model using a mathematically principled sensitivity score, more than tripling rendering speed while retaining more salient foreground information and higher visual fidelity.">
+    <meta name="twitter:image" content="https://pup3dgs.github.io/static/images/playroom_preview.png">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ScholarlyArticle",
+      "headline": "PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting",
+      "author": [
+        {
+          "@type": "Person",
+          "name": "Alex Hanson",
+          "url": "https://www.cs.umd.edu/~hanson/"
+        },
+        {
+          "@type": "Person",
+          "name": "Allen Tu",
+          "url": "https://tuallen.github.io"
+        },
+        {
+            "@type": "Person",
+            "name": "Vasu Singla",
+            "url": "https://vasusingla.github.io/"
+        },
+        {
+            "@type": "Person",
+            "name": "Mayuka Jayawardhana",
+            "url": "https://scholar.google.com/citations?user=0zysOU8AAAAJ"
+        },
+        {
+            "@type": "Person",
+            "name": "Matthias Zwicker",
+            "url": "https://www.cs.umd.edu/~zwicker/"
+        },
+        {
+            "@type": "Person",
+            "name": "Tom Goldstein",
+            "url": "https://www.cs.umd.edu/~tomg/"
+        }
+      ],
+      "description": "Prune 90% of primitives from any pretrained 3D Gaussian Splatting model using a mathematically principled sensitivity score, more than tripling rendering speed while retaining more salient foreground information and higher visual fidelity.",
+      "image": "https://pup3dgs.github.io/static/images/playroom_preview.png",
+      "datePublished": "2025-06-01",
+      "url": "https://pup3dgs.github.io/"
+    }
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJBVZNV6J3"></script>
     <script>
@@ -22,21 +85,21 @@
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma.min.css?v=202602181315">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css?v=202602181315">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/images/favicon.ico">
+    <link rel="stylesheet" href="./static/css/index.css?v=202602181315">
+    <link rel="icon" href="./static/images/favicon.ico?v=202602181315">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js"></script>
-    <script src="./static/js/bulma-carousel.min.js"></script>
-    <script src="./static/js/index.js"></script>
-    <script defer src="./static/js/video_comparison.js"></script>
-    <script defer src="./static/js/script.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js?v=202602181315"></script>
+    <script src="./static/js/bulma-carousel.min.js?v=202602181315"></script>
+    <script src="./static/js/index.js?v=202602181315"></script>
+    <script defer src="./static/js/video_comparison.js?v=202602181315"></script>
+    <script defer src="./static/js/script.js?v=202602181315"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
@@ -311,7 +374,8 @@
                                         <div id="example1" class="bal-container-small">
 
                                             <div class="bal-after">
-                                                <img src="./static/images/train_lg.webp" loading="lazy">
+                                                <img src="./static/images/train_lg.webp"
+                                                    alt="LightGaussian result on Train scene" loading="lazy">
                                                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                                                     LightGaussian [Fan 2023]
                                                 </div>
@@ -319,7 +383,8 @@
 
                                             <div class="bal-before" style="width:96.4968152866242%;">
                                                 <div class="bal-before-inset" style="width: 539px;">
-                                                    <img src="./static/images/train_ours.webp" loading="lazy">
+                                                    <img src="./static/images/train_ours.webp"
+                                                        alt="PUP 3D-GS result on Train scene" loading="lazy">
                                                     <div class="bal-beforePosition beforeLabel">
                                                         PUP 3D-GS (Ours)
                                                     </div>
@@ -337,7 +402,8 @@
                                         <div id="example2" class="bal-container-small">
 
                                             <div class="bal-after">
-                                                <img src="./static/images/drjohnson_lg.webp" loading="lazy">
+                                                <img src="./static/images/drjohnson_lg.webp"
+                                                    alt="LightGaussian result on Dr. Johnson scene" loading="lazy">
                                                 <div class="bal-afterPosition afterLabel" style="z-index:1;">
                                                     LightGaussian [Fan 2023]
                                                 </div>
@@ -345,7 +411,8 @@
 
                                             <div class="bal-before" style="width:96.4968152866242%;">
                                                 <div class="bal-before-inset" style="width: 539px;">
-                                                    <img src="./static/images/drjohnson_ours.webp" loading="lazy">
+                                                    <img src="./static/images/drjohnson_ours.webp"
+                                                        alt="PUP 3D-GS result on Dr. Johnson scene" loading="lazy">
                                                     <div class="bal-beforePosition beforeLabel">
                                                         PUP 3D-GS (Ours)
                                                     </div>
@@ -368,7 +435,8 @@
 
                                     <div id="example4" class="bal-container-small">
                                         <div class="bal-after">
-                                            <img src="./static/images/bicycle_lg.webp" loading="lazy">
+                                            <img src="./static/images/bicycle_lg.webp"
+                                                alt="LightGaussian result on Bicycle scene" loading="lazy">
                                             <div class="bal-afterPosition afterLabel" style="z-index:1;">
                                                 LightGaussian [Fan 2023]
                                             </div>
@@ -376,7 +444,8 @@
 
                                         <div class="bal-before" style="width:96.4968152866242%;">
                                             <div class="bal-before-inset" style="width: 539px;">
-                                                <img src="./static/images/bicycle_ours.webp" loading="lazy">
+                                                <img src="./static/images/bicycle_ours.webp"
+                                                    alt="PUP 3D-GS result on Bicycle scene" loading="lazy">
                                                 <div class="bal-beforePosition beforeLabel">
                                                     PUP 3D-GS (Ours)
                                                 </div>
@@ -392,7 +461,8 @@
 
                                     <div id="example5" class="bal-container-small">
                                         <div class="bal-after">
-                                            <img src="./static/images/room_lg.webp" loading="lazy">
+                                            <img src="./static/images/room_lg.webp"
+                                                alt="LightGaussian result on Room scene" loading="lazy">
                                             <div class="bal-afterPosition afterLabel" style="z-index:1;">
                                                 LightGaussian [Fan 2023]
                                             </div>
@@ -400,7 +470,8 @@
 
                                         <div class="bal-before" style="width:96.4968152866242%;">
                                             <div class="bal-before-inset" style="width: 539px;">
-                                                <img src="./static/images/room_ours.webp" loading="lazy">
+                                                <img src="./static/images/room_ours.webp"
+                                                    alt="PUP 3D-GS result on Room scene" loading="lazy">
                                                 <div class="bal-beforePosition beforeLabel">
                                                     PUP 3D-GS (Ours)
                                                 </div>
