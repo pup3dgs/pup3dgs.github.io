@@ -195,23 +195,63 @@ function playVids(videoId) {
     }
 }
 
+
 function resizeAndPlay(element) {
     var cv = document.getElementById(element.id + "Merge");
 
     // Use the section width (the same width the text uses)
     var container = element.parentElement;
-    var containerWidth = parseFloat(window.getComputedStyle(container).width);
 
-    // Video frame: left half only
-    var halfWidth = element.videoWidth / 2;
-    var aspectRatio = element.videoHeight / halfWidth;
+    // Function to update canvas size
+    const updateSize = () => {
+        // Calculate available width based on container
+        var containerWidth = parseFloat(window.getComputedStyle(container).width);
 
-    // Resize canvas to match text width
-    cv.width = containerWidth;
-    cv.height = containerWidth * aspectRatio;
+        // Calculate available height based on viewport (e.g., 80% of window height)
+        var maxViewportHeight = window.innerHeight * 0.8;
+
+        // Video frame: left half only (source dimensions)
+        var halfWidth = element.videoWidth / 2;
+        var aspectRatio = element.videoHeight / halfWidth;
+
+        // Ideal height based on full container width
+        var idealHeight = containerWidth * aspectRatio;
+
+        var finalWidth, finalHeight;
+
+        if (idealHeight > maxViewportHeight) {
+            // Height constrained
+            finalHeight = maxViewportHeight;
+            finalWidth = finalHeight / aspectRatio;
+        } else {
+            // Width constrained
+            finalWidth = containerWidth;
+            finalHeight = idealHeight;
+        }
+
+        // Set canvas internal resolution
+        cv.width = finalWidth;
+        cv.height = finalHeight;
+
+        // Center the canvas if it's narrower than the container via CSS styles
+        cv.style.width = finalWidth + "px";
+        cv.style.height = finalHeight + "px";
+        cv.style.objectFit = "contain";
+        cv.style.margin = "0 auto";
+        cv.style.display = "block";
+    };
+
+    // Initial size update
+    updateSize();
 
     element.play();
     element.style.height = "0px";  // Hide the video, only canvas draws it
 
     playVids(element.id);
+
+    // Add resize listener if not already attached
+    if (!element.dataset.resizeListenerAttached) {
+        window.addEventListener('resize', updateSize);
+        element.dataset.resizeListenerAttached = "true";
+    }
 }
