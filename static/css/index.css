@@ -3,7 +3,8 @@ body {
 }
 
 .video-compare-container {
-  width: 90%;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   position: relative;
   display: block;
@@ -161,11 +162,12 @@ body {
 .bal-container-small {
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 400px;
   cursor: grab;
   overflow: hidden;
   border-radius: 10px;
-  margin: 5px;
+  margin: 0 auto 2rem auto;
 }
 
 .bal-container-big {
@@ -326,4 +328,10 @@ body {
   position: absolute;
   left: 50%;
   margin-left: -1.5px;
+}
+
+@media screen and (max-width: 768px) {
+  .video-compare-container {
+    width: calc(100% - 1.5rem);
+  }
 }
