@@ -361,3 +361,10 @@ body {
     aspect-ratio: 16/9;
   }
 }
+
+#v2 {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  object-position: left;
+}

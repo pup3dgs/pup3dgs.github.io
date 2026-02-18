@@ -43,6 +43,8 @@ function playVids(videoId) {
 
         function drawLoop() {
             var dpr = window.devicePixelRatio || 1;
+            // Cap DPR to 2 to improve performance on mobile
+            if (dpr > 2) { dpr = 2; }
             const cw = videoMerge.width / dpr;
             const ch = videoMerge.height / dpr;
 
@@ -233,6 +235,8 @@ function resizeAndPlay(element) {
 
         // Set canvas internal resolution handling high DPI
         var dpr = window.devicePixelRatio || 1;
+        // Cap DPR to 2 to improve performance on mobile
+        if (dpr > 2) { dpr = 2; }
         cv.width = finalWidth * dpr;
         cv.height = finalHeight * dpr;
 
