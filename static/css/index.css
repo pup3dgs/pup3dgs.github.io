@@ -337,6 +337,21 @@ body {
     width: calc(100% - 1.5rem);
   }
 
+  #results-carousel .slider-pagination {
+    display: flex !important;
+    bottom: 0.25rem;
+  }
+
+  #results-carousel .slider-pagination .slider-page {
+    background: #fff;
+    opacity: 1;
+  }
+
+  #results-carousel .slider-navigation-previous,
+  #results-carousel .slider-navigation-next {
+    display: none !important;
+  }
+
   .bal-container-small {
     height: auto;
     aspect-ratio: 3/2;
