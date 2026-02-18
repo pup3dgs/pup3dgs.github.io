@@ -42,8 +42,9 @@ function playVids(videoId) {
 
 
         function drawLoop() {
-            const cw = videoMerge.width;
-            const ch = videoMerge.height;
+            var dpr = window.devicePixelRatio || 1;
+            const cw = videoMerge.width / dpr;
+            const ch = videoMerge.height / dpr;
 
             // Clear canvas
             mergeContext.clearRect(0, 0, cw, ch);
@@ -196,6 +197,7 @@ function playVids(videoId) {
 }
 
 
+
 function resizeAndPlay(element) {
     var cv = document.getElementById(element.id + "Merge");
 
@@ -229,9 +231,10 @@ function resizeAndPlay(element) {
             finalHeight = idealHeight;
         }
 
-        // Set canvas internal resolution
-        cv.width = finalWidth;
-        cv.height = finalHeight;
+        // Set canvas internal resolution handling high DPI
+        var dpr = window.devicePixelRatio || 1;
+        cv.width = finalWidth * dpr;
+        cv.height = finalHeight * dpr;
 
         // Center the canvas if it's narrower than the container via CSS styles
         cv.style.width = finalWidth + "px";
@@ -239,6 +242,10 @@ function resizeAndPlay(element) {
         cv.style.objectFit = "contain";
         cv.style.margin = "0 auto";
         cv.style.display = "block";
+
+        // Scale the context to match the internal resolution
+        var ctx = cv.getContext("2d");
+        ctx.scale(dpr, dpr);
     };
 
     // Initial size update
