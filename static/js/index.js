@@ -1,6 +1,17 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
 $(document).ready(function () {
+  function ensureCarouselVideosAutoplay(carousel) {
+    var videos = carousel.wrapper.querySelectorAll('video');
+    videos.forEach(function (video) {
+      video.muted = true;
+      video.playsInline = true;
+      var playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(function () { });
+      }
+    });
+  }
 
   var options = {
     slidesToScroll: 1,
@@ -21,15 +32,19 @@ $(document).ready(function () {
   var carousels = bulmaCarousel.attach('.carousel', options);
 
   // Loop on each carousel initialized
-  for (var i = 0; i < carousels.length; i++) {
+  for (let i = 0; i < carousels.length; i++) {
+    const carousel = carousels[i];
+    ensureCarouselVideosAutoplay(carousel);
+
     // Add listener to  event
-    carousels[i].on('before:show', state => {
+    carousel.on('before:show', state => {
       console.log(state);
     });
     // Dot pagination can set string indices; normalize so arrow math keeps working.
-    carousels[i].on('after:show', function (state) {
+    carousel.on('after:show', function (state) {
       state.index = Number(state.index);
       state.next = Number(state.next);
+      ensureCarouselVideosAutoplay(carousel);
     });
   }
 
