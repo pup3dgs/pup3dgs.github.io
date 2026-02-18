@@ -26,6 +26,11 @@ $(document).ready(function () {
     carousels[i].on('before:show', state => {
       console.log(state);
     });
+    // Dot pagination can set string indices; normalize so arrow math keeps working.
+    carousels[i].on('after:show', function (state) {
+      state.index = Number(state.index);
+      state.next = Number(state.next);
+    });
   }
 
   // Access to bulmaCarousel instance of an element
