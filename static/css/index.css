@@ -170,6 +170,8 @@ body {
   margin: 0 auto 2rem auto;
 }
 
+
+
 .bal-container-big {
   position: relative;
   width: 100%;
@@ -333,5 +335,14 @@ body {
 @media screen and (max-width: 768px) {
   .video-compare-container {
     width: calc(100% - 1.5rem);
+  }
+
+  .bal-container-small {
+    height: auto;
+    aspect-ratio: 3/2;
+  }
+
+  #example1 {
+    aspect-ratio: 16/9;
   }
 }
