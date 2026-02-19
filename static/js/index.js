@@ -1,15 +1,33 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
 $(document).ready(function () {
-  function ensureCarouselVideosAutoplay(carousel) {
+  // Intelligent Autoplay with IntersectionObserver
+  // Only play videos when they are actually visible in the viewport.
+  // This drastically reduces decoder load on mobile by preventing off-screen/cloned videos from playing.
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        // Video is visible
+        entry.target.play().catch(function (error) {
+          // Autoplay was prevented.
+          // console.log('Autoplay prevented for video:', error);
+        });
+      } else {
+        // Video is hidden
+        entry.target.pause();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  function attachObserverToCarouselVideos(carousel) {
+    // Select all videos in the carousel wrapper (including Bulma-created clones)
     var videos = carousel.wrapper.querySelectorAll('video');
     videos.forEach(function (video) {
+      // Ensure basic properties
       video.muted = true;
       video.playsInline = true;
-      var playPromise = video.play();
-      if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(function () { });
-      }
+      // Attach observer
+      observer.observe(video);
     });
   }
 
@@ -34,7 +52,7 @@ $(document).ready(function () {
   // Loop on each carousel initialized
   for (let i = 0; i < carousels.length; i++) {
     const carousel = carousels[i];
-    ensureCarouselVideosAutoplay(carousel);
+    attachObserverToCarouselVideos(carousel);
 
     // Add listener to  event
     carousel.on('before:show', state => {
@@ -44,7 +62,7 @@ $(document).ready(function () {
     carousel.on('after:show', function (state) {
       state.index = Number(state.index);
       state.next = Number(state.next);
-      ensureCarouselVideosAutoplay(carousel);
+      // ensureCarouselVideosAutoplay(carousel);
     });
   }
 
