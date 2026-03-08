@@ -92,22 +92,26 @@
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
-    <link rel="stylesheet" href="./static/css/bulma.min.css?v=202602181315">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css?v=202602181315">
+    <link rel="stylesheet" href="./static/css/bulma.min.css?v=2026.03.08">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css?v=2026.03.08">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="icon" href="./static/images/favicon.ico?v=202602181315">
+    <link rel="icon" href="./static/images/favicon.svg?v=2026.03.08" type="image/svg+xml">
+    <link rel="icon" href="./static/images/favicon.png?v=2026.03.08" type="image/png" sizes="32x32">
+    <link rel="icon" href="./static/images/favicon.ico?v=2026.03.08" sizes="any">
+    <link rel="apple-touch-icon" href="./static/images/favicon.png?v=2026.03.08">
 
-    <link rel="stylesheet" href="./static/css/index.css?v=202602181315">
+    <link rel="stylesheet" href="./static/css/index.css?v=2026.03.08">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js?v=202602181315"></script>
-    <script src="./static/js/bulma-carousel.min.js?v=202602181315"></script>
-    <script src="./static/js/index.js?v=202602181315"></script>
-    <script defer src="./static/js/video_comparison.js?v=202602181315"></script>
-    <script defer src="./static/js/script.js?v=202602181640"></script>
+    <script defer src="./static/js/fontawesome.all.min.js?v=2026.03.08"></script>
+    <script src="./static/js/bulma-carousel.min.js?v=2026.03.08"></script>
+    <script src="./static/js/index.js?v=2026.03.08"></script>
+    <script defer src="./static/js/video_comparison.js?v=2026.03.08"></script>
+    <script defer src="./static/js/script.js?v=2026.03.08"></script>
+    <script defer src="./static/js/pdf-modal.js?v=2026.03.08"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
@@ -165,6 +169,7 @@
                             <!-- PDF Link. -->
                             <span class="link-block">
                                 <a href="https://arxiv.org/pdf/2406.10219" target="_blank" rel="noopener noreferrer"
+                                    title="PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting"
                                     class="external-link button is-normal is-rounded is-dark">
                                     <span class="icon">
                                         <i class="fas fa-file-pdf"></i>
@@ -183,6 +188,7 @@
                             </span>
                             <span class="link-block">
                                 <a href="static/files/pup3dgs_poster.pdf" target="_blank" rel="noopener noreferrer"
+                                    title="PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting"
                                     class="external-link button is-normal is-rounded is-dark">
                                     <span class="icon">
                                         <i class="fas fa-image"></i>
@@ -558,7 +564,8 @@
                         <strong>Speedy-Splat</strong>
                     </a>
                     (CVPR 2025)
-                    <small><a href="https://speedysplat.github.io/#BibTeX" target="_blank" rel="noopener noreferrer">[BibTeX]</a></small>
+                    <small><a href="https://speedysplat.github.io/#BibTeX" target="_blank"
+                            rel="noopener noreferrer">[BibTeX]</a></small>
                     — Accelerate 3D Gaussian Splatting rendering speed by 2× for free by accurately localizing
                     primitives during rasterization and over 6× in total by pruning the scene by more than 90% during
                     training, providing a significantly higher speedup than existing techniques while maintaining
@@ -569,7 +576,8 @@
                         <strong>SpeeDe3DGS</strong>
                     </a>
                     (CVPR 2026)
-                    <small><a href="https://speede3dgs.github.io/#BibTeX" target="_blank" rel="noopener noreferrer">[BibTeX]</a></small>
+                    <small><a href="https://speede3dgs.github.io/#BibTeX" target="_blank"
+                            rel="noopener noreferrer">[BibTeX]</a></small>
                     — Boost DeformableGS rendering speed from 20 to 276 FPS using temporal sensitivity pruning and
                     groupwise SE(3) motion distillation, all while preserving the superior image quality of per-Gaussian
                     neural motion.
@@ -581,13 +589,15 @@
     <footer class="footer">
         <div class="container">
             <div class="content has-text-centered">
-                <a class="icon-link" href="https://arxiv.org/pdf/2406.10219" target="_blank" rel="noopener noreferrer">
+                <a class="icon-link" href="https://arxiv.org/pdf/2406.10219" target="_blank" rel="noopener noreferrer"
+                    title="PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting">
                     <i class="fas fa-file-pdf"></i>
                 </a>
                 <a class="icon-link" href="https://arxiv.org/abs/2406.10219" target="_blank" rel="noopener noreferrer">
                     <i class="ai ai-arxiv"></i>
                 </a>
-                <a class="icon-link" href="static/files/pup3dgs_poster.pdf" target="_blank" rel="noopener noreferrer">
+                <a class="icon-link" href="static/files/pup3dgs_poster.pdf" target="_blank" rel="noopener noreferrer"
+                    title="PUP 3D-GS: Principled Uncertainty Pruning for 3D Gaussian Splatting">
                     <i class="fas fa-image"></i>
                 </a>
                 <a class="icon-link" href="https://youtu.be/CceTvf70JZs" target="_blank" rel="noopener noreferrer">
@@ -619,8 +629,10 @@
                     <div class="content has-text-centered">
                         <p>
                             We thank the authors of <a rel="nerfies"
-                                href="https://github.com/nerfies/nerfies.github.io/tree/main" target="_blank" rel="noopener noreferrer">Nerfies</a>
-                            for generously <a href="https://github.com/pup3dgs/pup3dgs.github.io" target="_blank" rel="noopener noreferrer">open-sourcing</a> the
+                                href="https://github.com/nerfies/nerfies.github.io/tree/main" target="_blank"
+                                rel="noopener noreferrer">Nerfies</a>
+                            for generously <a href="https://github.com/pup3dgs/pup3dgs.github.io" target="_blank"
+                                rel="noopener noreferrer">open-sourcing</a> the
                             template used in this website.
                         </p>
                     </div>
