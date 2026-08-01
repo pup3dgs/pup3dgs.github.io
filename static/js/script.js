@@ -1,58 +1,91 @@
+/**
+ * Before/after image slider.
+ *
+ * The "before" image sits in a fixed-width inset inside a clipped wrapper, so
+ * revealing it is a matter of changing the wrapper's width while the image
+ * underneath stays put. The inset therefore has to track the container's width.
+ *
+ * A ResizeObserver keeps it in step. The previous version did this with
+ * `window.onresize =`, an assignment rather than a listener, so each slider
+ * clobbered the one before it and only the last on the page ever resized — and
+ * it missed container changes that were not window resizes.
+ */
 class BeforeAfter {
-    constructor(enteryObject) {
+    constructor(entryObject) {
+        // Accepts either a selector string or the element itself. The sliders are
+        // now discovered by class and handed straight in, and passing an element to
+        // querySelector throws — which silently left every slider inert: rendered,
+        // shadowed, but unresponsive to the pointer.
+        const container = typeof entryObject.id === "string"
+            ? document.querySelector(entryObject.id)
+            : entryObject.id;
+        if (!container) return;
 
-        const beforeAfterContainer = document.querySelector(enteryObject.id);
-        const before = beforeAfterContainer.querySelector('.bal-before');
-        const beforeText = beforeAfterContainer.querySelector('.bal-beforePosition');
-        const afterText = beforeAfterContainer.querySelector('.bal-afterPosition');
-        const handle = beforeAfterContainer.querySelector('.bal-handle');
-        var widthChange = 0;
+        const before = container.querySelector('.bal-before');
+        const inset = container.querySelector('.bal-before-inset');
+        const afterText = container.querySelector('.bal-afterPosition');
+        const handle = container.querySelector('.bal-handle');
+        if (!before || !inset || !handle) return;
 
-        beforeAfterContainer.querySelector('.bal-before-inset').setAttribute("style", "width: " + beforeAfterContainer.offsetWidth + "px;")
-        window.onresize = function () {
-            beforeAfterContainer.querySelector('.bal-before-inset').setAttribute("style", "width: " + beforeAfterContainer.offsetWidth + "px;")
+        const syncInset = () => {
+            inset.style.width = container.offsetWidth + 'px';
+        };
+
+        if ('ResizeObserver' in window) {
+            new ResizeObserver(syncInset).observe(container);
+        } else {
+            window.addEventListener('resize', syncInset);
         }
-        before.setAttribute('style', "width: 50%;");
-        handle.setAttribute('style', "left: 50%;");
+        syncInset();
 
-        //touch screen event listener
-        beforeAfterContainer.addEventListener("touchstart", (e) => {
+        before.style.width = '50%';
+        handle.style.left = '50%';
+        if (afterText) afterText.style.zIndex = '1';
 
-            beforeAfterContainer.addEventListener("touchmove", (e2) => {
-                let containerWidth = beforeAfterContainer.offsetWidth;
-                let currentPoint = e2.changedTouches[0].clientX;
+        // Clamp so the handle cannot be dragged off either end, which would
+        // leave one image entirely hidden and the handle stranded at the edge.
+        const setPosition = (clientX) => {
+            const rect = container.getBoundingClientRect();
+            if (!rect.width) return;
+            const pct = Math.max(0, Math.min(100,
+                ((clientX - rect.left) / rect.width) * 100));
+            before.style.width = pct + '%';
+            handle.style.left = pct + '%';
+        };
 
-                let startOfDiv = beforeAfterContainer.offsetLeft;
+        // Touch: only claim the gesture when it starts near the handle, so a
+        // vertical scroll that begins on the image still scrolls the page.
+        let dragging = false;
 
-                let modifiedCurrentPoint = currentPoint - startOfDiv;
+        container.addEventListener('touchstart', (e) => {
+            const rect = container.getBoundingClientRect();
+            const handleX = rect.left + rect.width * (parseFloat(before.style.width) / 100);
+            dragging = Math.abs(e.touches[0].clientX - handleX) < 44;
+        }, { passive: true });
 
-                if (modifiedCurrentPoint > 10 && modifiedCurrentPoint < beforeAfterContainer.offsetWidth - 10) {
-                    let newWidth = modifiedCurrentPoint * 100 / containerWidth;
+        container.addEventListener('touchmove', (e) => {
+            if (!dragging) return;
+            if (e.cancelable) e.preventDefault();
+            setPosition(e.touches[0].clientX);
+        }, { passive: false });
 
-                    before.setAttribute('style', "width:" + newWidth + "%;");
-                    afterText.setAttribute('style', "z-index: 1;");
-                    handle.setAttribute('style', "left:" + newWidth + "%;");
-                }
-            });
-        });
+        container.addEventListener('touchend', () => { dragging = false; });
 
-        //mouse move event listener
-        beforeAfterContainer.addEventListener('mousemove', (e) => {
-            let containerWidth = beforeAfterContainer.offsetWidth;
-            widthChange = e.offsetX;
-            let newWidth = widthChange * 100 / containerWidth;
-
-            if (e.offsetX > 10 && e.offsetX < beforeAfterContainer.offsetWidth - 10) {
-                before.setAttribute('style', "width:" + newWidth + "%;");
-                afterText.setAttribute('style', "z-index:" + "1;");
-                handle.setAttribute('style', "left:" + newWidth + "%;");
-            }
-        })
-
+        // Mouse: follow the pointer directly, which is what makes these feel
+        // immediate on desktop — no click needed.
+        container.addEventListener('mousemove', (e) => setPosition(e.clientX));
     }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Every before/after slider on the page, found by class. These used to be
+    // constructed by an inline <script> between two <section>s that listed ids by
+    // hand — a list that had drifted out of sync with the markup, and that put
+    // page-init code in the middle of the document flow. Discovering them by class
+    // cannot drift.
+    document.querySelectorAll('.bal-container-small')
+        .forEach(function (el) { new BeforeAfter({ id: el }); });
+
     const copyBtn = document.getElementById('copy-btn');
     const bibtexContent = document.getElementById('bibtex-content');
 
