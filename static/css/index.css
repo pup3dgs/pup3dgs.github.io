@@ -1,6 +1,55 @@
+/* PUP 3D-GS — page-specific styles.
+ *
+ * Layout/grid come from the purged Bulma subset (bulma.min.css); icons from
+ * icons.css; the results carousel from slideshow.css; the PDF viewer from
+ * pdf-modal.css. This file holds only what is particular to this page: the
+ * teaser comparison slider, the before/after image sliders, and the hero text.
+ *
+ * Headings fall back to the self-hosted Noto Sans while Google Sans loads
+ * asynchronously, so the async swap is a font change rather than invisible text.
+ */
+
 body {
   font-family: 'Noto Sans', sans-serif;
 }
+
+/* ---- Reducing the heading reflow ----
+ *
+ * Google Sans is proprietary, so it cannot be self-hosted and has to arrive from
+ * Google's CDN after first paint. Headings therefore render once in the fallback
+ * and again in Google Sans, and because the two have different metrics the title
+ * re-wrapped — "Pruning" jumped up a line as it swapped.
+ *
+ * This is a metrics-matched fallback: Noto Sans is ~4% wider per character than
+ * Google Sans at the same size, so nudging it down closes most of the gap and the
+ * swap becomes a change of shape rather than a change of layout. Google Sans
+ * itself is unaffected; this face is only ever used while it is in flight.
+ */
+@font-face {
+  font-family: 'Google Sans Fallback';
+  src: local('Noto Sans'), local('Helvetica Neue'), local('Arial');
+  size-adjust: 96%;
+  ascent-override: 95%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+/* Keeps a phrase from being split across lines — but only where the phrase can
+   actually fit. Below ~360px a long method name is wider than the viewport even at
+   the clamped title size, and an unbreakable span that wide forces the whole page
+   to scroll sideways. A very small screen gets a mid-phrase break instead, which is
+   the lesser problem. */
+.nowrap {
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 400px) {
+  .nowrap {
+    white-space: normal;
+  }
+}
+
+/* ---- Comparison slider (canvas, driven by video_comparison.js) ---- */
 
 .video-compare-container {
   width: 100%;
@@ -9,6 +58,9 @@ body {
   position: relative;
   display: block;
   line-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
 }
 
 .videoMerge {
@@ -22,6 +74,7 @@ body {
   background-size: cover;
 }
 
+/* ---- Hero / teaser ---- */
 
 .footer .icon-link {
   font-size: 25px;
@@ -33,45 +86,23 @@ body {
   margin-bottom: 5px;
 }
 
-.dnerf {
-  font-variant: small-caps;
+.hero-teaser {
+  font-family: 'Google Sans', 'Google Sans Fallback', 'Noto Sans', sans-serif;
 }
-
-
-.teaser .hero-body {
-  padding-top: 0;
-  padding-bottom: 3rem;
-}
-
-.teaser {
-  font-family: 'Google Sans', sans-serif;
-}
-
-
 
 .publication-title {
+  color: #000;
   margin-top: -20px;
-}
-
-.publication-banner {
-  max-height: parent;
-}
-
-.publication-banner video {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  object-fit: fit;
-}
-
-.publication-title {
-  font-family: 'Google Sans', sans-serif;
+  font-family: 'Google Sans', 'Google Sans Fallback', 'Noto Sans', sans-serif;
 }
 
 .publication-authors {
   color: #000;
-  font-family: 'Google Sans', sans-serif;
+  font-family: 'Google Sans', 'Google Sans Fallback', 'Noto Sans', sans-serif;
+}
+
+.publication-authors a {
+  color: var(--link) !important;
 }
 
 .publication-venue {
@@ -79,36 +110,35 @@ body {
   font-weight: bold;
 }
 
-.publication-awards {
-  color: #ff3860;
-  width: fit-content;
-  font-weight: bolder;
-}
-
-.publication-authors a {
-  color: hsl(204, 60%, 30%) !important;
-}
-
-.publication-authors a:hover {
-  text-decoration: underline;
-}
-
 .author-block {
   display: inline-block;
 }
 
+/* The "* denotes equal contribution" line, tucked under the author list. Bulma's
+   .columns carries a bottom margin that left a visible gap between the two; this
+   pulls it closed. Was an inline `margin-bottom: -5px`.
+
+   The selector has to include `.columns` to outrank
+   `.columns:not(:last-child){margin-bottom:calc(1.5rem - .75rem)}` — one class loses
+   to two, so as a bare `.author-note` this kept Bulma's 12px and the gap it was
+   written to close stayed open. */
+.columns.author-note {
+  margin-bottom: -5px;
+}
+
+/* The embedded talk gets the same raised surface as the other media on the page,
+   so the player reads as an inset object rather than a hole cut in the layout.
+   The shadow sits on this wrapper, not the <iframe>: `overflow: hidden` is what
+   clips the player to the rounded corners and would clip a child's shadow, but an
+   element's own shadow still paints outside its clip. */
 .publication-video {
   position: relative;
   width: 100%;
   height: 0;
   padding-bottom: 56.25%;
-
   overflow: hidden;
   border-radius: 10px !important;
-}
-
-.publication-image-half {
-  width: 50;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
 }
 
 .publication-video iframe {
@@ -119,45 +149,7 @@ body {
   height: 100%;
 }
 
-.results-carousel {
-  overflow: hidden;
-}
-
-.results-carousel .item {
-  margin: 5px;
-  /* overflow: hidden; */
-  border: 1px solid #bbb;
-  border-radius: 10px;
-  padding: 0;
-  font-size: 0;
-}
-
-.results-carousel video {
-  margin: 0;
-  width: 100%;
-}
-
-.interpolation-panel {
-  background: #f5f5f5;
-  border-radius: 10px;
-}
-
-.interpolation-panel .interpolation-image {
-  width: 100%;
-  border-radius: 5px;
-}
-
-.interpolation-panel .slider {
-  margin: 0 !important;
-}
-
-#interpolation-image-wrapper {
-  width: 100%;
-}
-
-#interpolation-image-wrapper img {
-  border-radius: 5px;
-}
+/* ---- Before/after image sliders (driven by script.js) ---- */
 
 .bal-container-small {
   position: relative;
@@ -167,17 +159,8 @@ body {
   cursor: grab;
   overflow: hidden;
   border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
   margin: 0 auto 2rem auto;
-}
-
-
-
-.bal-container-big {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  cursor: grab;
-  overflow: hidden;
 }
 
 .bal-after {
@@ -196,7 +179,6 @@ body {
   display: block;
   position: absolute;
   top: 0;
-  /* right: 0; */
   bottom: 0;
   left: 0;
   width: 100%;
@@ -223,9 +205,7 @@ body {
   bottom: 0;
   left: 0;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -247,27 +227,14 @@ body {
   padding: 2px 10px;
 }
 
-.beforeLabel {
-  position: absolute;
-  bottom: 0;
-  margin: 1rem;
-  font-size: 1em;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
+.beforeLabel,
 .afterLabel {
   position: absolute;
   bottom: 0;
   margin: 1rem;
   font-size: 1em;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -332,24 +299,135 @@ body {
   margin-left: -1.5px;
 }
 
+/* Only the canvas is meant to be visible; the <video> is just the frame source.
+   resizeAndPlay() sets height:0 on it, but an `aspect-ratio` on the same element
+   re-derives a height from its width and wins, leaving a white band above the
+   canvas inside the rounded container. Collapse it here instead, and let the
+   canvas carry the ratio that reserves space before JS sizes it. */
+.video-compare-container video.video {
+  display: block;
+  width: 100%;
+  height: 0;
+}
+
+/* The source is a side-by-side pair, so the visible half is 16:9. Without this
+   the canvas holds its default 300x150 ratio until the slider initialises. */
+.video-compare-container canvas.videoMerge {
+  aspect-ratio: 16 / 9;
+}
+
+/* ---- Related work ----
+   Was an <ol> whose items ran title, "(CVPR 2025)", "[BibTeX]" and the description
+   together as one inline paragraph. The numbering implied a ranking that isn't
+   there, and the bracketed metadata competed with the title. Each entry now has a
+   title line above its description, with the venue as a quiet badge. */
+
+.related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.related-item + .related-item {
+  margin-top: 1.5rem;
+}
+
+.related-title {
+  margin-bottom: 0.2rem !important;
+}
+/* Venue and BibTeX sit on their own line under the title, so a long paper name
+   never has to share a baseline with them. */
+.related-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem !important;
+}
+
+.related-title > a:first-child {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--link);
+}
+
+/* Metadata, not a heading: sized and coloured to sit behind the title. */
+.related-venue {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #595959;
+  background: #f0f0f0;
+  border-radius: 999px;
+  padding: 0.15em 0.6em;
+  white-space: nowrap;
+}
+
+/* A quiet secondary action. The underline appears on hover so the link is
+   discoverable without shouting on every entry. */
+.related-bibtex {
+  font-size: 0.82rem;
+  color: #595959;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.related-bibtex:hover {
+  color: #363636;
+  border-bottom-color: #b5b5b5;
+}
+
+/* ---- BibTeX block ----
+   Was a long inline style attribute on both the container and its button. */
+
+.bibtex-container {
+  position: relative;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: #fff;
+  /* Was #e5e5e5, 1.26:1 against the button's own white fill — a control boundary
+     WCAG 1.4.11 asks to reach 3:1. The measurement that matters is against the
+     #f5f5f5 code block the button sits on, not its own fill: #8f8f8f gave 3.23:1
+     inward but only 2.97:1 outward, so #858585 is used instead — 3.45:1 and 3.17:1,
+     clearing 3:1 on both edges while still reading as quiet chrome. */
+  border: 1px solid #858585;
+  border-radius: 4px;
+  color: #595959;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover used to lighten the border to #b5b5b5 — 2.05:1, less visible than at rest,
+   so the feedback made the control harder to see. Darker instead. */
+.copy-code-btn:hover {
+  border-color: #6b6b6b;
+  color: #363636;
+}
+
+.copy-code-btn.copied {
+  color: #257953;
+  border-color: #257953;
+}
+
 @media screen and (max-width: 768px) {
   .video-compare-container {
     width: calc(100% - 1.5rem);
-  }
-
-  #results-carousel .slider-pagination {
-    display: flex !important;
-    bottom: 0.25rem;
-  }
-
-  #results-carousel .slider-pagination .slider-page {
-    background: #fff;
-    opacity: 1;
-  }
-
-  #results-carousel .slider-navigation-previous,
-  #results-carousel .slider-navigation-next {
-    display: none !important;
   }
 
   .bal-container-small {
@@ -360,174 +438,98 @@ body {
   #example1 {
     aspect-ratio: 16/9;
   }
-}
 
-#v2 {
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  object-position: left;
-}
-
-/* ════════════════════════════════════════
-   PDF VIEWER MODAL
-   ════════════════════════════════════════ */
-.pdf-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.pdf-overlay.active {
-  display: flex;
-  flex-direction: column;
-}
-
-.pdf-overlay.show {
-  opacity: 1;
-}
-
-.pdf-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
-  color: #222222;
-  flex-shrink: 0;
-  position: relative;
-  font-family: 'Google Sans', 'Noto Sans', sans-serif;
-}
-
-.pdf-toolbar-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 1;
-  min-width: 0;
-  z-index: 1;
-}
-
-.pdf-logo-close {
-  color: #363636;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  transition: opacity 0.2s;
-  flex-shrink: 0;
-}
-
-.pdf-logo-close:hover {
-  opacity: 0.7;
-}
-
-.pdf-logo-close .logo-desktop {
-  display: inline-flex;
-}
-
-.pdf-logo-close .logo-mobile {
-  display: none;
-}
-
-.pdf-title {
-  font-family: 'Google Sans', 'Noto Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #222222;
-}
-
-.pdf-toolbar-actions {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.pdf-toolbar-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  border-radius: 6px;
-  border: 1px solid #dbdbdb;
-  background: #f5f5f5;
-  color: #595959;
-  font-family: 'Google Sans', 'Noto Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  text-decoration: none;
-}
-
-.pdf-toolbar-btn:hover {
-  background: #ffffff;
-  border-color: #363636;
-  color: #363636;
-}
-
-.pdf-toolbar-btn.close-btn {
-  border: none;
-  background: none;
-  font-size: 22px;
-  padding: 4px 8px;
-  line-height: 1;
-  color: #595959;
-}
-
-.pdf-toolbar-btn.close-btn:hover {
-  background: none;
-  border-color: transparent;
-  color: #363636;
-}
-
-.pdf-viewer-container {
-  flex: 1;
-  width: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  background: #f5f5f5;
-}
-
-.pdf-viewer-frame {
-  display: block;
-  border: none;
-  width: 100%;
-  height: 100%;
-}
-
-@media (max-width: 640px) {
-  .pdf-toolbar {
-    padding: 10px 14px;
+  /* Bulma pins .title.is-1 at a flat 3rem, which a long paper title cannot fit
+     on a phone — it overflowed the viewport and forced the whole page sideways.
+     Scale with the viewport instead, with a floor so it stays a title. */
+  .publication-title.is-1 {
+    font-size: clamp(1.6rem, 7.2vw, 3rem);
   }
 
-  .pdf-title {
-    font-size: 13px;
-    flex-grow: 1;
+  .is-size-3 {
+    font-size: 1.4rem !important;
   }
 
-  .pdf-toolbar-btn span.btn-label {
+  .is-size-5 {
+    font-size: 1rem !important;
+  }
+}
+
+/* ---- Display equations on narrow screens ----
+ *
+ * MathJax lays a display equation out at its intrinsic width and nothing clips it,
+ * so a formula wider than the viewport pushes the whole page sideways — below
+ * ~385px this page could be scrolled horizontally by ~65px. The `math-mobile`
+ * variants already restack the longest formulas, but some remain wider than a
+ * small phone whatever we do with line breaks.
+ *
+ * Letting the container scroll on its own axis keeps the equation legible and
+ * complete while the page itself stays fixed. Applied to the container rather than
+ * the <p>, so surrounding prose is unaffected.
+ */
+mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Room for the scrollbar so it never sits on top of a glyph. */
+  padding-bottom: 2px;
+}
+
+/* Inline math normally must not become a scroll container — that would break the
+   line box. But a long inline expression can still be wider than a small phone,
+   and nothing clips it, so it drags the page sideways. Allowing it to scroll only
+   at the narrowest widths keeps the formula complete and the page fixed. */
+mjx-container:not([display="true"]) {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 400px) {
+  mjx-container:not([display="true"]) {
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    vertical-align: middle;
+  }
+}
+
+/* The baseline label runs past the slider's width on a phone, so the citation is
+   dropped there — "LightGaussian" alone identifies it, and the full attribution is
+   in the prose and the BibTeX. */
+@media screen and (max-width: 768px) {
+  .cite-suffix {
     display: none;
   }
+}
 
-  .pdf-toolbar-btn {
-    padding: 7px 10px;
+/* The four comparison sliders are split across two Bulma columns (1-2 in one, 3-4
+   in the other). Side by side on desktop that is invisible, but stacked on mobile the
+   gap between sliders 2 and 3 is the columns' own padding rather than the 2rem
+   margin that separates 1-2 and 3-4 — so one gap in the run was wrong. Making the
+   margin uniform and zeroing the column padding gives one rhythm down the stack. */
+@media screen and (max-width: 768px) {
+  /* One gap for the whole stack. The four sliders are split across two Bulma columns
+     (1-2, then 3-4), and at the seam three boxes contribute: slider 2's bottom margin
+     does not cross the boundary, while the second `.column` and the `.columns` nested
+     inside it each add their own margin — Bulma's is -0.75rem. Measured, the seam came
+     out at 20px against 32px elsewhere.
+     Rather than fight that stack, the gap is set once on the slider itself and the
+     seam is closed by giving the second column the difference. Verified equal at
+     32/32/32 with a live measurement. */
+  .bal-container-small {
+    margin-bottom: 32px;
   }
 
-  .pdf-logo-close .logo-desktop {
-    display: none;
+  #results .columns.is-centered > .column {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  .pdf-logo-close .logo-mobile {
-    display: inline-flex;
+  #results .columns.is-centered > .column + .column {
+    margin-top: 44px;
+  }
+
+  /* Slider 2 ends its column, so its own margin would double at the seam. */
+  #results .columns.is-centered > .column:first-child .bal-container-small:last-child {
+    margin-bottom: 0;
   }
 }
