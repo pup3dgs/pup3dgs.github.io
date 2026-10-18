@@ -418,6 +418,11 @@ body {
   padding: 0.5rem;
 }
 
+.bibtex-note {
+  margin-top: 1em;
+  color: var(--text-muted);
+}
+
 .copy-code-btn {
   position: absolute;
   top: 0.5rem;
